@@ -867,12 +867,8 @@ io.on('connection', socket => {
 const metricsTimer = setInterval(() => io.emit('server:metrics', captureMetrics()), 5000);
 metricsTimer.unref();
 const backupTimer = setInterval(runScheduledBackup, 60 * 1000);
-backupTimer.unref();
-
-backupTimer.unref();
-
-const PORT = process.env.PORT || 3000;
-const HOST = '0.0.0.0';
+PORT = process.env.PORT || 3000;
+HOST = '0.0.0.0';
 
 httpServer.listen(PORT, HOST, () => {
     console.log(`Minecraft panel attivo su http://${HOST}:${PORT}`);
