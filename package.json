@@ -1,0 +1,29 @@
+{
+  "name": "lantern-minecraft-panel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dashboard locale privata per server Minecraft self-hosted",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js && node --check scripts/reset-password.js",
+    "reset-password": "node scripts/reset-password.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "archiver": "^8.0.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "multer": "^2.0.2",
+    "smol-toml": "^1.9.0",
+    "socket.io": "^4.8.1",
+    "yaml": "^2.9.1",
+    "yauzl": "^3.4.0"
+  }
+}
