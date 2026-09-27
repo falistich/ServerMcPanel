@@ -870,10 +870,9 @@ const backupTimer = setInterval(runScheduledBackup, 60 * 1000);
 PORT = process.env.PORT || 3000;
 HOST = '0.0.0.0';
 
-httpServer.listen(PORT, HOST, () => {
-    console.log(`Minecraft panel attivo su http://${HOST}:${PORT}`);
-    console.log(`Minecraft server directory: ${serverRoot}`);
+httpServer.listen(process.env.PORT || 3000, '0.0.0.0', () => {
+    console.log(`Minecraft panel attivo sulla porta ${process.env.PORT || 3000}`);
     if (!process.env.SESSION_SECRET) {
-        console.warn("SESSION_SECRET non impostata: le sessioni verranno invalidate a ogni riavvio.");
+        console.warn("SESSION_SECRET non impostata.");
     }
 });
