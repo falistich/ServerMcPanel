@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121716">
+  <title>Lantern | Minecraft Panel</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="auth-view" class="auth-shell" hidden>
+    <div class="auth-brand"><span class="brand-mark">L</span><span>LANTERN <small>MINECRAFT PANEL</small></span></div>
+    <section class="auth-box">
+      <p class="eyebrow" id="auth-eyebrow">ACCESSO PRIVATO</p>
+      <h1 id="auth-title">Bentornato.</h1>
+      <p class="muted" id="auth-description">Entra nella console del tuo server.</p>
+      <form id="auth-form">
+        <label>Nome utente<input name="username" required minlength="3" maxlength="24" autocomplete="username"></label>
+        <label>Password<input name="password" required minlength="12" maxlength="128" type="password" autocomplete="current-password"></label>
+        <button class="button button-primary auth-submit" type="submit" id="auth-submit">Accedi <span>→</span></button>
+        <p class="form-error" id="auth-error" role="alert"></p>
+      </form>
+      <p class="auth-note" id="auth-note">Pannello privato · accesso locale</p>
+      <button id="admin-create-open" class="auth-admin-link" type="button" hidden>Admin Create <span>↗</span></button>
+    </section>
+    <span class="auth-foot">SELF-HOSTED · LAN ONLY BY DEFAULT</span>
+  </div>
+
+  <div id="app-view" class="app-shell" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="#overview"><span class="brand-mark">L</span><span>LANTERN<small>MINECRAFT PANEL</small></span></a>
+      <div class="server-identity"><span class="server-cube">▦</span><div><strong id="sidebar-server">Minecraft server</strong><small>SELF-HOSTED</small></div></div>
+      <nav class="nav-list" aria-label="Sezioni">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span>Panoramica</button>
+        <button class="nav-item admin-only" data-view="details"><span class="nav-icon">▦</span>Dati server</button>
+        <button class="nav-item" data-view="console"><span class="nav-icon">›_</span>Console <i class="access-dot" id="console-access-dot"></i></button>
+        <button class="nav-item" data-view="files"><span class="nav-icon">▤</span>File manager</button>
+        <button class="nav-item" data-view="software"><span class="nav-icon">◈</span>Software</button>
+        <button class="nav-item" data-view="plugins"><span class="nav-icon">⬡</span>Plugin</button>
+        <button class="nav-item" data-view="backups"><span class="nav-icon">◷</span>Backup</button>
+        <button class="nav-item admin-only" data-view="users"><span class="nav-icon">♙</span>Accessi</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="local-chip"><span></span> HOST LOCALE</div><button id="logout-button" class="logout-button">Esci <span>↗</span></button></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar"><div class="topbar-context"><span>SERVER</span><b>/</b><span id="crumb">PANORAMICA</span></div><div class="topbar-user"><span class="user-avatar" id="avatar">U</span><span id="username-label">Utente</span><span class="role-label" id="role-label">USER</span></div></header>
+      <div class="content-wrap">
+        <section class="view active" id="view-overview">
+          <div class="page-heading"><div><p class="eyebrow">CONTROL ROOM <span class="eyebrow-line"></span> <span id="date-label"></span></p><h1>Il tuo server,<br><em>sotto controllo.</em></h1></div><div class="heading-actions"><span class="status-pill" id="status-pill"><i></i><span>OFFLINE</span></span><button class="button button-secondary admin-only" id="create-server-button" hidden>＋ Crea server</button><button class="button button-primary admin-only" id="start-button"><span>▶</span> Avvia server</button><button class="button button-stop admin-only" id="stop-button" hidden><span>■</span> Arresta</button><button class="button button-secondary admin-only" id="restart-button" hidden>↻ Riavvia</button></div></div>
+          <div id="start-hint" class="start-hint admin-only" hidden><span id="start-hint-text">Nessun JAR selezionato</span><button class="text-button" id="start-hint-action" data-open="software">Apri Software e carica il JAR <b>→</b></button></div>
+          <div class="overview-grid">
+            <article class="metric-panel status-panel"><div class="panel-label">STATO SERVER <span class="live-mark"><i></i> LIVE</span></div><div class="status-readout"><span id="status-orb" class="status-orb"></span><div><strong id="status-title">Spento</strong><small id="status-detail">In attesa di avvio</small></div></div><div class="panel-rule"></div><div class="status-meta"><span>JAR</span><strong id="jar-name">server.jar</strong></div><div class="status-meta"><span>MACCHINA</span><strong id="host-name">Locale</strong></div></article>
+            <article class="metric-panel memory-panel"><div class="panel-label">MEMORIA JAVA <span class="panel-unit">MB</span></div><div class="memory-inputs"><label>MIN<input id="heap-min" type="number" min="512" step="256" value="1024"></label><span class="memory-separator">→</span><label>MAX<input id="heap-max" type="number" min="512" step="256" value="2048"></label><button id="save-heap" class="icon-button" title="Salva memoria" aria-label="Salva memoria">↵</button></div><div class="memory-track"><span id="memory-progress"></span></div><div class="memory-foot"><span>Range configurabile</span><strong id="heap-cap">max rilevato: -- MB</strong></div></article>
+            <article class="metric-panel quick-panel"><div class="panel-label">ACCESSO RAPIDO</div><button class="quick-link" data-open="console"><span class="quick-icon">›_</span><span><strong>Apri console</strong><small>Output in tempo reale</small></span><b>↗</b></button><button class="quick-link" data-open="files"><span class="quick-icon quick-file">▤</span><span><strong>File server</strong><small>Configura i tuoi file</small></span><b>↗</b></button></article>
+          </div>
+          <section class="resource-section"><div class="section-heading"><div><p class="eyebrow">HOST IN TEMPO REALE</p><h2>Risorse macchina</h2></div><span class="metric-updated" id="metrics-updated">In attesa di dati</span></div><div class="resource-grid"><article class="resource-item"><div><span>CPU HOST</span><strong id="metric-cpu">--%</strong></div><div class="resource-track"><i id="metric-cpu-bar"></i></div><small>Carico complessivo del sistema</small></article><article class="resource-item"><div><span>MEMORIA HOST</span><strong id="metric-memory">-- / -- GB</strong></div><div class="resource-track"><i id="metric-memory-bar"></i></div><small id="metric-memory-detail">RAM utilizzata</small></article><article class="resource-item"><div><span>DISCO SERVER</span><strong id="metric-disk">-- / -- GB</strong></div><div class="resource-track"><i id="metric-disk-bar"></i></div><small id="metric-disk-detail">Spazio occupato dalla macchina</small></article></div></section>
+          <section class="players-section"><div class="section-heading"><div><p class="eyebrow">SESSIONI MULTIGIOCATORE</p><h2>Giocatori <span class="player-count" id="player-count">0 / 0</span></h2></div><button class="icon-button" id="refresh-players" title="Aggiorna giocatori" aria-label="Aggiorna giocatori">↻</button></div><div class="player-list" id="player-list"><span class="player-empty">Avvia il server per rilevare i giocatori.</span></div></section>
+          <section class="activity-section"><div class="section-heading"><div><p class="eyebrow">ULTIMI EVENTI</p><h2>Attività recente</h2></div><button class="text-button" data-open="console">Apri console <span>→</span></button></div><div class="activity-list" id="recent-activity"><div class="empty-activity"><span>⌁</span>Gli eventi del server appariranno qui.</div></div></section>
+        </section>
+
+        <section class="view admin-only" id="view-details">
+          <div class="page-heading compact-heading"><div><p class="eyebrow">CONFIGURAZIONE E DIAGNOSTICA</p><h1>Dati server<span class="title-period">.</span></h1><p class="muted">Runtime, rete, processo e impostazioni configurate</p></div><button id="refresh-details" class="button button-secondary">↻ Aggiorna</button></div>
+          <form id="server-address-form" class="server-address-form"><label>Hostname da condividere<input id="server-hostname" maxlength="253" placeholder="play.esempio.it" autocomplete="off"></label><button class="button button-secondary" type="submit">Salva dominio</button><small>Solo hostname, senza schema o porta. Configura il record DNS A/AAAA verso il tuo IP pubblico; per porte diverse da 25565 serve anche SRV e il port forwarding sul router.</small><p id="server-address-error" class="form-error" role="alert"></p></form>
+          <div class="server-info-grid">
+            <article class="server-info-item"><span>NOME SERVER</span><strong id="detail-name">Non creato</strong></article>
+            <article class="server-info-item"><span>VERSIONE SERVER</span><strong id="detail-version">--</strong></article>
+            <article class="server-info-item"><span>TIPO SOFTWARE</span><strong id="detail-type">--</strong></article>
+            <article class="server-info-item"><span>JAR ATTIVO</span><strong id="detail-jar">--</strong></article>
+            <article class="server-info-item"><span>JAVA RUNTIME</span><strong id="detail-java">--</strong><small id="detail-java-executable">--</small></article>
+            <article class="server-info-item"><span>RAM JAVA</span><strong id="detail-memory">--</strong></article>
+            <article class="server-info-item"><span>PROCESSO</span><strong id="detail-pid">Non avviato</strong><small id="detail-uptime">Uptime: --</small></article>
+            <article class="server-info-item"><span>DIRECTORY</span><strong id="detail-directory">--</strong></article>
+          </div>
+          <section class="server-info-section"><div class="section-heading"><div><p class="eyebrow">RETE</p><h2>Indirizzi e porte</h2></div></div><div class="server-info-row"><span>Bind configurato</span><strong id="detail-endpoint">--</strong></div><div class="server-info-row address-info-row"><span>Indirizzi per giocare dalla LAN</span><div><strong id="detail-addresses">--</strong><button id="copy-server-address" class="icon-button" title="Copia indirizzo" aria-label="Copia indirizzo">▣</button></div></div><div class="server-info-row"><span>Giocatori</span><strong id="detail-players">0 / 0</strong></div><div class="network-help">Gli indirizzi LAN funzionano sullo stesso Wi-Fi/rete. Per amici fuori casa servono IP pubblico o dominio, port forwarding sul router e firewall configurato; il pannello non può creare un dominio pubblico da solo.</div></section>
+          <section class="server-info-section"><div class="section-heading"><div><p class="eyebrow">FILE DI CONFIGURAZIONE</p><h2 id="detail-config-title">Impostazioni</h2></div></div><div id="detail-config" class="detail-config"></div><div id="detail-backends-wrap" hidden><p class="eyebrow">BACKEND VELOCITY</p><div id="detail-backends" class="detail-config"></div></div></section>
+        </section>
+
+        <section class="view" id="view-console">
+          <div class="page-heading compact-heading"><div><p class="eyebrow">OUTPUT IN TEMPO REALE</p><h1>Console<span class="title-period">.</span></h1><p class="muted">Stream del processo Java · comandi inviati direttamente al server</p></div><span class="status-pill" id="console-status"><i></i><span>OFFLINE</span></span></div>
+          <div class="console-panel"><div class="console-topline"><div class="terminal-lights"><i></i><i></i><i></i></div><span id="console-caption">minecraft-server / console</span><button class="console-clear" id="clear-console" title="Pulisci visualizzazione">⌫</button></div><div class="console-output" id="console-output" aria-live="polite" aria-label="Output console"></div><form class="console-form" id="console-form"><span class="prompt">›</span><input id="command-input" autocomplete="off" placeholder="Scrivi un comando Minecraft..." maxlength="500"><button class="send-command" aria-label="Invia comando">INVIA <span>↗</span></button></form></div><p class="console-hint"><span>ENTER</span> per inviare <b>·</b> I comandi sono visibili a tutti gli utenti autorizzati</p>
+        </section>
+
+        <section class="view" id="view-files">
+          <div class="page-heading compact-heading"><div><p class="eyebrow">CONFIGURAZIONE SERVER</p><h1>File manager<span class="title-period">.</span></h1><p class="muted">Directory server confinata e protetta</p></div><button id="new-file-button" class="button button-secondary admin-only">＋ Nuovo</button></div>
+          <div class="file-panel"><div class="file-toolbar"><div class="breadcrumbs" id="breadcrumbs"></div><button class="icon-button" id="refresh-files" title="Aggiorna" aria-label="Aggiorna">↻</button></div><div class="file-layout"><div class="file-list" id="file-list"></div><div class="file-editor" id="file-editor"><div class="editor-empty"><span>▤</span><strong>Seleziona un file di testo</strong><small>Le modifiche sono riservate agli admin</small></div></div></div></div>
+        </section>
+
+        <section class="view" id="view-software">
+          <div class="page-heading compact-heading"><div><p class="eyebrow">VERSIONE E RUNTIME</p><h1>Software<span class="title-period">.</span></h1><p class="muted">Seleziona il JAR che verrà eseguito al prossimo avvio</p></div><span class="status-pill" id="software-status"><i></i><span>OFFLINE</span></span></div>
+          <div class="software-panel"><div class="software-current"><span class="software-symbol">◈</span><div><small id="software-kind">SERVER MINECRAFT</small><strong id="active-jar">server.jar</strong><span id="active-jar-state">Arresta il server per cambiare versione</span></div></div><div class="software-select"><label for="software-type">Tipo software</label><div class="software-select-row"><select id="software-type"><option value="paper">Paper</option><option value="vanilla">Vanilla</option><option value="velocity">Velocity proxy</option></select></div><label for="jar-select">JAR installati nella cartella dedicata</label><div class="software-select-row"><select id="jar-select"></select><button class="button button-primary admin-only" id="save-jar">Imposta software</button></div></div></div>
+          <form id="server-jar-form" class="server-upload admin-only"><label class="file-picker-label">Carica JAR server o Velocity<input id="server-jar-file" type="file" accept=".jar,application/java-archive" required></label><button class="button button-secondary" type="submit">Carica JAR (max 2 GB) ↑</button><span id="server-jar-message" class="muted"></span></form>
+          <div class="software-warning"><span>!</span><p>I JAR non vengono scaricati automaticamente. Velocity è un proxy: usa una directory dedicata, configura i backend in <code>velocity.toml</code> e proteggili con il forwarding segreto. Questo pannello gestisce un processo Java; i backend non vengono avviati insieme al proxy.</p></div>
+          <div class="velocity-requirement" id="velocity-requirement" hidden>Velocity recente può richiedere Java 25 o superiore: verifica il requisito della versione scaricata.</div>
+        </section>
+
+        <section class="view" id="view-backups">
+          <div class="page-heading compact-heading"><div><p class="eyebrow">PROTEZIONE MONDO E CONFIGURAZIONE</p><h1>Backup<span class="title-period">.</span></h1><p class="muted">Archivi ZIP conservati localmente · massimo 10 snapshot</p></div><button id="create-backup" class="button button-primary admin-only">＋ Crea backup</button></div>
+          <div class="backup-schedule admin-only"><div><strong>Backup automatico</strong><small>Snapshot periodici con rotazione dei più vecchi</small></div><div class="backup-schedule-control"><select id="backup-interval" aria-label="Intervallo backup automatico"><option value="0">Disattivato</option><option value="6">Ogni 6 ore</option><option value="12">Ogni 12 ore</option><option value="24">Ogni 24 ore</option></select><button class="button button-secondary" id="save-backup-schedule">Salva</button></div></div>
+          <div class="backup-notice"><span>i</span><p>Prima dello snapshot viene eseguito <code>save-all flush</code>. Il ripristino sostituisce l’intera cartella server e richiede il server spento.</p></div>
+          <div class="backup-list-panel"><div class="backup-list-header"><span>ARCHIVIO</span><span>DIMENSIONE</span><span>CREATO</span><span>AZIONI</span></div><div id="backup-list"><p class="muted backup-empty">Caricamento backup...</p></div></div>
+        </section>
+
+        <section class="view" id="view-plugins">
+          <div class="page-heading compact-heading"><div><p class="eyebrow">ESTENSIONI SERVER</p><h1>Plugin<span class="title-period">.</span></h1><p class="muted">Carica archivi JAR nella cartella plugins/</p></div></div>
+          <section class="upload-section admin-only"><form id="plugin-form" class="upload-zone"><div class="upload-symbol">↑</div><div><strong>Trascina un plugin qui</strong><span>oppure seleziona un file JAR · massimo 100 MB</span></div><label class="button button-secondary upload-select">Sfoglia file<input type="file" id="plugin-file" accept=".jar,application/java-archive" required></label><button class="button button-primary" type="submit">Carica plugin <span>↑</span></button></form><p id="plugin-message" class="upload-message" role="status"></p></section>
+          <div class="plugin-note"><span>i</span><p>I plugin vengono installati in <code>plugins/</code>. Riavvia il server per attivarli. Carica solo JAR da fonti di cui ti fidi.</p></div>
+          <div class="plugin-directory"><p class="eyebrow">DIRECTORY PLUGINS</p><div id="plugin-list" class="plugin-list"><p class="muted">Caricamento...</p></div></div>
+        </section>
+
+        <section class="view" id="view-users">
+          <div class="page-heading compact-heading"><div><p class="eyebrow">GESTIONE PERMESSI</p><h1>Accessi<span class="title-period">.</span></h1><p class="muted">Gestisci utenti, console e amministratori</p></div><div class="heading-actions"><span class="admin-stamp">AMMINISTRATORE</span><button id="add-user-button" class="button button-secondary">＋ Crea utente</button><button id="add-admin-button" class="button button-primary">＋ Crea admin</button></div></div>
+          <div class="users-panel"><div class="users-header"><span>ACCOUNT</span><span>RUOLO</span><span>CONSOLE LIVE</span></div><div id="users-list"></div></div>
+          <p class="users-footnote">Gli account vengono creati dall’amministratore dopo l’accesso. Solo il primo account creato durante il setup riceve il ruolo admin.</p>
+        </section>
+      </div>
+      <footer class="app-footer"><span>LANTERN PANEL <b>·</b> PRIVATO E SELF-HOSTED</span><span>NESSUN SERVIZIO CLOUD</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <dialog id="create-dialog"><form method="dialog" id="create-form"><div class="dialog-heading"><p class="eyebrow">SERVER FILES</p><button class="icon-button" value="cancel" aria-label="Chiudi">×</button></div><h2>Crea nuovo elemento</h2><label>Nome<input id="new-name" required maxlength="180" placeholder="es. server.properties"></label><label class="check-label"><input id="new-is-directory" type="checkbox"> Crea cartella</label><div class="dialog-actions"><button class="button button-secondary" value="cancel">Annulla</button><button class="button button-primary" id="create-confirm" value="default">Crea</button></div></form></dialog>
+  <dialog id="user-dialog"><form method="dialog" id="user-form"><div class="dialog-heading"><p class="eyebrow">NUOVO ACCOUNT</p><button class="icon-button" value="cancel" aria-label="Chiudi">×</button></div><h2>Invita un utente</h2><p class="muted">L’account verrà creato senza accesso alla console.</p><label>Nome utente<input id="new-username" required minlength="3" maxlength="24" autocomplete="off"></label><label>Password iniziale<input id="new-password" required type="password" minlength="12" maxlength="128" autocomplete="new-password"><small>Almeno 12 caratteri. Comunicala privatamente.</small></label><p class="form-error" id="user-error" role="alert"></p><div class="dialog-actions"><button class="button button-secondary" value="cancel">Annulla</button><button class="button button-primary" id="user-confirm" value="default">Crea account</button></div></form></dialog>
+  <dialog id="admin-dialog"><form method="dialog" id="admin-form"><div class="dialog-heading"><p class="eyebrow">ACCESSO AMMINISTRATIVO</p><button class="icon-button" value="cancel" aria-label="Chiudi">×</button></div><h2>Crea account admin</h2><p class="muted">Conferma le tue credenziali e il codice privato configurato sul server.</p><label>Nome nuovo admin<input id="new-admin-username" required minlength="3" maxlength="24" autocomplete="off"></label><label>Password personale del nuovo admin<input id="new-admin-password" required type="password" minlength="12" maxlength="128" autocomplete="new-password"><small>Password unica, almeno 12 caratteri. Non viene impostata una password condivisa.</small></label><label>La tua password admin attuale<input id="confirm-admin-password" required type="password" autocomplete="current-password"></label><label>Codice di creazione admin<input id="admin-creation-code" required type="password" autocomplete="off"></label><p class="form-error" id="admin-error" role="alert"></p><div class="dialog-actions"><button class="button button-secondary" value="cancel">Annulla</button><button class="button button-primary" id="admin-confirm" value="default">Verifica e crea</button></div></form></dialog>
+  <dialog id="admin-register-dialog"><form method="dialog" id="admin-register-form"><div class="dialog-heading"><p class="eyebrow">REGISTRAZIONE AMMINISTRATORE</p><button class="icon-button" value="cancel" aria-label="Chiudi">×</button></div><h2>Admin Create</h2><p class="muted">Il codice è necessario per creare un account con privilegi amministrativi.</p><label>Nome utente<input id="admin-register-username" required minlength="3" maxlength="24" autocomplete="username"></label><label>Password personale<input id="admin-register-password" required type="password" minlength="12" maxlength="128" autocomplete="new-password"><small>Scegli una password unica di almeno 12 caratteri.</small></label><label>Codice admin<input id="admin-register-code" required type="password" autocomplete="off"></label><p class="form-error" id="admin-register-error" role="alert"></p><div class="dialog-actions"><button class="button button-secondary" value="cancel">Annulla</button><button class="button button-primary" id="admin-register-submit" value="default">Crea account admin</button></div></form></dialog>
+  <dialog id="server-create-dialog"><form method="dialog" id="server-create-form"><div class="dialog-heading"><p class="eyebrow">NUOVA ISTANZA</p><button class="icon-button" value="cancel" aria-label="Chiudi">×</button></div><h2>Crea il tuo server</h2><p class="muted">Scarichiamo il JAR ufficiale nella directory server configurata.</p><label>Nome server<input id="server-create-name" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_ -]{3,24}" placeholder="es. Survival amici"></label><div class="create-form-grid"><label>Software<select id="server-create-software"><option value="paper">Paper · consigliato</option><option value="vanilla">Vanilla ufficiale</option><option value="velocity">Velocity proxy</option></select></label><label id="server-create-version-label">Versione<select id="server-create-version" required></select></label></div><label>Runtime Java installato<select id="server-create-java" required></select><small id="server-create-java-note">Il runtime selezionato verrà usato per questo server.</small></label><label class="check-label" id="eula-label"><input id="server-create-eula" type="checkbox"> Accetto la <a href="https://www.minecraft.net/eula" target="_blank" rel="noreferrer">EULA ufficiale di Minecraft</a>.</label><div class="create-velocity-note" id="server-create-velocity-note" hidden>Velocity è un proxy e richiede server backend configurati in seguito in velocity.toml. Questo pannello gestisce un processo per volta.</div><p class="form-error" id="server-create-error" role="alert"></p><div class="dialog-actions"><button class="button button-secondary" value="cancel">Annulla</button><button class="button button-primary" id="server-create-submit" value="default">Crea server</button></div></form></dialog>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js" defer></script>
+</body>
+</html>
