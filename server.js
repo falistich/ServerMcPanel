@@ -867,9 +867,6 @@ io.on('connection', socket => {
 const metricsTimer = setInterval(() => io.emit('server:metrics', captureMetrics()), 5000);
 metricsTimer.unref();
 const backupTimer = setInterval(runScheduledBackup, 60 * 1000);
-PORT = process.env.PORT || 3000;
-HOST = '0.0.0.0';
-
 httpServer.listen(process.env.PORT || 3000, '0.0.0.0', () => {
     console.log(`Minecraft panel attivo sulla porta ${process.env.PORT || 3000}`);
     if (!process.env.SESSION_SECRET) {
